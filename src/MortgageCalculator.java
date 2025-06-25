@@ -4,10 +4,20 @@ import java.util.Scanner;
 public class MortgageCalculator {
     final static byte PERCENT = 100;
     final static byte MONTH_IN_YEAR = 12;
-    private static byte years = 0;
-    private static  float annualInterest = 0;
-    private static int principal = 0;
 
+    public static double readNumber(String prompt, double min, double max) {
+        Scanner sc = new Scanner(System.in);
+        double value;
+        while(true) {
+            System.out.print(prompt);
+            value = sc.nextInt();
+            if (value >= min && value <= max) {
+                break;
+            }
+            System.out.println("Enter a number between " + min + " and " + max);
+        }
+        return value;
+    }
     public static double calculateMortgage(
             int principal,
             float annualInterest,
@@ -21,34 +31,9 @@ public class MortgageCalculator {
         return mortgage;
     }
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        while(true) {
-            System.out.print("Principal ($1k - $1M): ");
-            principal = sc.nextInt();
-            if (principal >= 1000 && principal <= 1_000_000) {
-                break;
-            }
-            System.out.println("Enter a number between 1,000 and 1,000,000.");
-        }
-
-        while(true) {
-            System.out.print("Annual Interest Rate: ");
-            annualInterest = sc.nextFloat(); // Interest Rate is a small number, so float is sufficient for that
-            if (annualInterest >= 1 && annualInterest <= 30) {
-                break;
-            }
-            System.out.println("Enter a value greater than 0 and less or equal to 30");
-        }
-
-        while (true) {
-            System.out.print("Period (Years): ");
-            years = sc.nextByte(); // byte because the maximum number you want to support is 30
-            if (years >= 1 && years <= 30) {
-                break;
-            }
-            System.out.println("Enter a value between 1 and 30");
-        }
+        int principal = (int) readNumber("Principal: ", 1000, 1_000_000);
+        float annualInterest = (float) readNumber("Annual Interest Rate: ", 1, 30);
+        byte years = (byte) readNumber("Period (Years) ", 1, 30);
 
         double mortgage = calculateMortgage(principal, annualInterest, years);
         String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
