@@ -1,15 +1,14 @@
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-//        MortgageCalculator mc1 = new MortgageCalculator(100000, 3.15, 30);
-//        mc1.userInput(); // aqui chamo o metodo
+        System.out.println("===========================");
+        System.out.println("    MORTGAGE CALCULATOR");
+        System.out.println("===========================\n");
 
-        String name = greetUser("Helena");
-        System.out.println(name);
-    }
+        int principal = (int) MortgageCalculator.readNumber("Principal ($1K - $1M): ", 1_000, 1_000_000);
+        float annualInterest = (float) MortgageCalculator.readNumber("Annual Interest Rate (1% - 30%): ", 1, 30);
+        byte years = (byte) MortgageCalculator.readNumber("Period (Years, 1 - 30): ", 1, 30);
 
-    public static String greetUser(String name) {
-        return name;
+        MortgageCalculator.printMortgage(principal, annualInterest, years);
+        MortgageCalculator.printPaymentSchedule(principal, annualInterest, years);
     }
 }
